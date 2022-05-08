@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, abort, make_response, request
+from flask import Blueprint, jsonify, abort, make_response, request, flash, redirect, url_for
 from app.models.task import Task
 from app import db
 from datetime import datetime
@@ -62,6 +62,9 @@ def get_all_tasks():
         tasks = tasks.order_by(Task.title.asc()) 
     elif sort_query=="desc":
         tasks =tasks.order_by(Task.title.desc())
+    
+    #! don't forget to delete this line!!
+    flash('Hurray!! You completed your task!!')
 
     tasks_response = []
     for task in tasks:
@@ -98,9 +101,16 @@ def update_task1(task_id, mark):
         myobj={"channel" :"task-notifications",
                "text":f"Someone just completed the task {task.title}"}
         requests.post(path,data = myobj, headers=slack_headers)
+        flash('Hurray!! You completed your task!!')
 
     elif mark =="mark_incomplete": 
         task.completed_at =None
+        flash('Don\'t be upset, you will complete it later for sure')
+
+    #! does not work so far:
+    if not mark:
+        flash('<h2>You can mark task using mark_complete or mark_incomplete</h2>')
+        return redirect(url_for('index'))    
 
     db.session.commit()
 

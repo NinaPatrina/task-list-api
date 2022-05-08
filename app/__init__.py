@@ -11,6 +11,8 @@ load_dotenv()
 def create_app(test_config=None):
     app = Flask(__name__)
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    #secret key is required to send flash messages
+    app.secret_key =os.environ.get("SECRET_KEY")
 
     if test_config is None:
         app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(

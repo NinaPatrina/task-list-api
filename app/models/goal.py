@@ -5,7 +5,7 @@ class Goal(db.Model):
     title = db.Column(db.String)
     tasks = db.relationship("Task", back_populates="goal")
    
-    #? Setting the lazy value to True
+    #! Setting the lazy value to True
 
     def to_dict(self):
         return {
