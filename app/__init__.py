@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import os
@@ -13,6 +13,16 @@ def create_app(test_config=None):
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     #secret key is required to send flash messages
     app.secret_key =os.environ.get("SECRET_KEY")
+
+
+    menu = [{"name": "List all tasks", "url": "/tasks"},
+        {"name": "Create a task","url": "/tasks"},
+        {"name": "View one task", "url": f"/tasks/{id}"},
+        {"name": "Update task", "url": f"/tasks/{id}"},
+        {"name": "Delete task", "url": f"/tasks/{id}"},
+        {"name": "Mark complete","url": f"/tasks/{id}/mark_complete"},
+        {"name": "Mark incomplete","url": f"/tasks/{id}/mark_incomplete"},
+        {"name": "List all options","url": "about"}]
 
     if test_config is None:
         app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
@@ -38,13 +48,12 @@ def create_app(test_config=None):
 
     @app.errorhandler(404)
     def pageNotFound(error):
-        return "<h1> Page not found </h1>", 404 
+        return render_template('page404.html', title='page not found', menu=menu), 404 
 
-    @app.route("/")
-    @app.route("/main")
-    @app.route("/index")
+    @app.route("/base")
     @app.route("/about")
     def about():
-        return "<h1> The Task List Project by: Nina Patrina. Ada Developers Academy, 2022 </h1>"    
+        print(url_for('about'))
+        return render_template('about.html', title="The Task List Project by: Nina Patrina. Ada Developers Academy, 2022", menu=menu)   
     
     return app

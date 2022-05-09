@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ super()}}    
+    <ul class="tasks">
+        {% for t in tasks -%}
+        <li><a href="{{t.url}}">{{t.title}}</a></li>
+        {% endfor -%}
+    </ul>
+        
+{% endblock %}
+
+

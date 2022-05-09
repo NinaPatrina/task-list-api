@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, abort, make_response, request, flash, redirect, url_for
+from flask import Blueprint, jsonify, abort, make_response, request, flash, redirect, url_for, render_template
 from app.models.task import Task
 from app import db
 from datetime import datetime
@@ -69,7 +69,7 @@ def get_all_tasks():
     tasks_response = []
     for task in tasks:
         tasks_response.append(task.to_dict()["task"])
-    return jsonify(tasks_response)
+    return render_template( 'get_all_tasks.html', tasks=tasks_response)
 
 
 @tasks_bp.route("/<task_id>", methods=["GET"])
