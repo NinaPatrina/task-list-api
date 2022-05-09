@@ -4,6 +4,7 @@ from app import db
 from datetime import datetime
 import requests
 import os
+from app import menu
 
 
 tasks_bp = Blueprint("tasks_bp", __name__,  url_prefix="/tasks")
@@ -62,14 +63,11 @@ def get_all_tasks():
         tasks = tasks.order_by(Task.title.asc()) 
     elif sort_query=="desc":
         tasks =tasks.order_by(Task.title.desc())
-    
-    #! don't forget to delete this line!!
-    flash('Hurray!! You completed your task!!')
 
     tasks_response = []
     for task in tasks:
         tasks_response.append(task.to_dict()["task"])
-    return render_template( 'get_all_tasks.html', tasks=tasks_response)
+    return render_template( 'get_all_tasks.html', tasks=tasks_response, menu=menu)
 
 
 @tasks_bp.route("/<task_id>", methods=["GET"])

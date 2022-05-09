@@ -50,6 +50,7 @@ div.content {
   margin: 10px;
 }
 
-ul.tasks {
+table.tasks ,th,td{
   text-align:left;
+  border:1px solid #580242;
 }

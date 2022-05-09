@@ -2,11 +2,17 @@
 
 {% block content %}
 {{ super()}}    
-    <ul class="tasks">
+    <table class="tasks">
+        <th>title</th>
+        <th>description</th>
         {% for t in tasks -%}
-        <li><a href="{{t.url}}">{{t.title}}</a></li>
-        {% endfor -%}
-    </ul>
+        <tr>
+            <td> {{t.title}}</td> 
+            <td>{{t.description}}</td>
+            </tr>
+            {% endfor -%}
+            
+        </table>
         
 {% endblock %}
 

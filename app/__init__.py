@@ -8,14 +8,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 load_dotenv()
 
-def create_app(test_config=None):
-    app = Flask(__name__)
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    #secret key is required to send flash messages
-    app.secret_key =os.environ.get("SECRET_KEY")
-
-
-    menu = [{"name": "List all tasks", "url": "/tasks"},
+menu = [{"name": "List all tasks", "url": "/tasks"},
         {"name": "Create a task","url": "/tasks"},
         {"name": "View one task", "url": f"/tasks/{id}"},
         {"name": "Update task", "url": f"/tasks/{id}"},
@@ -23,6 +16,14 @@ def create_app(test_config=None):
         {"name": "Mark complete","url": f"/tasks/{id}/mark_complete"},
         {"name": "Mark incomplete","url": f"/tasks/{id}/mark_incomplete"},
         {"name": "List all options","url": "about"}]
+        
+def create_app(test_config=None):
+    app = Flask(__name__)
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    #secret key is required to send flash messages
+    app.secret_key =os.environ.get("SECRET_KEY")
+
+
 
     if test_config is None:
         app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
