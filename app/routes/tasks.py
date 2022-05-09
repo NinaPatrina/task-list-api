@@ -26,26 +26,21 @@ def validate_task(id):
     return task
 
 
-@tasks_bp.route("", methods=["POST"])
+@tasks_bp.route("/post", methods=["POST", "GET"])
 def create_task():
-    request_body = request.get_json()
-    try:
-        new_task = Task(title=request_body["title"],
-                    description=request_body["description"])
-    except KeyError:
-        return {"details": "Invalid data"}, 400
+    # request_body = request.get_json()
+    if request.method == "POST":
 
-    if "completed_at" in request_body:
         try:
-            # check completed_at is a string that is a datetime
-            new_task.completed_at=datetime.strptime(request_body["completed_at"], '%a, %d %b %Y %H:%M:%S %Z')
-        except:
-            abort(make_response({"message":f"the value of the completed_at should be in a date format: %a, %d %b %Y %H:%M:%S %Z"}, 400))
+            new_task = Task(title=request.form["title"],
+                        description=request.form["description"])
+        except KeyError:
+            return {"details": "Invalid data"}, 400
 
-    db.session.add(new_task)
-    db.session.commit()
-
-    return new_task.to_dict(), 201
+        db.session.add(new_task)
+        db.session.commit()
+        return redirect(url_for('about'))
+    return  render_template('my-form.html', menu=menu)
 
 
 @tasks_bp.route("", methods=["GET"])
@@ -70,10 +65,23 @@ def get_all_tasks():
     return render_template( 'get_all_tasks.html', tasks=tasks_response, menu=menu)
 
 
-@tasks_bp.route("/<task_id>", methods=["GET"])
+@tasks_bp.route("/get_by_id", methods=["POST", "GET"])
+def read_id():
+    if request.method == "POST":
+        id=request.form['task_id']
+
+        return redirect(url_for(f"tasks_bp/tasks/{id}"))
+
+    return   render_template('id-form.html')
+
+@tasks_bp.route("/<task_id>", methods=["POST", "GET"])
 def read_one_task(task_id):
-    task = validate_task(task_id)
-    return  task.to_dict()
+    if request.method == "POST":
+        id=request.form['task_id']
+        task = validate_task(id)
+        return render_template('get_one_task.html', task=task,title="One requested by id task", menu=menu)
+
+    return   render_template('id-form.html')
 
 
 @tasks_bp.route("/<task_id>", methods=["PUT"])

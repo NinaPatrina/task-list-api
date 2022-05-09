@@ -6,16 +6,12 @@
         <th>id</th>
         <th>title</th>
         <th>description</th>
-        {% for t in tasks -%}
         <tr>
-            <td>{{t.id}}</td>
-            <td> {{t.title}}</td> 
-            <td>{{t.description}}</td>
+            <td>{{task.task_id}}</td>
+            <td> {{task.title}}</td> 
+            <td>{{task.description}}</td>
             </tr>
-            {% endfor -%}
             
         </table>
         
 {% endblock %}
-
-
