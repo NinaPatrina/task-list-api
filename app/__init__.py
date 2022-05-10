@@ -13,8 +13,6 @@ menu = [{"name": "List all tasks", "url": "/tasks"},
         {"name": "View one task", "url": f"/tasks/task_id"},
         {"name": "Update task", "url": f"/tasks/update"},
         {"name": "Delete task", "url": f"/tasks/delete"},
-        {"name": "Mark complete","url": f"/tasks/{id}/mark_complete"},
-        {"name": "Mark incomplete","url": f"/tasks/{id}/mark_incomplete"},
         {"name": "Main page","url": "about"}]
 
 def create_app(test_config=None):
