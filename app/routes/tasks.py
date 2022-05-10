@@ -17,18 +17,15 @@ def validate_task(id):
         id = int(id)
     except:
         abort(make_response({"message":f"task {id} invalid"}, 400))
-
     task = Task.query.get(id)
 
     if not task:
         abort(make_response({"message":f"task {id} not found"}, 404))
-
     return task
 
 
 @tasks_bp.route("/post", methods=["POST", "GET"])
 def create_task():
-    # request_body = request.get_json()
     if request.method == "POST":
 
         try:
@@ -45,56 +42,12 @@ def create_task():
 
 @tasks_bp.route("", methods=["GET"])
 def get_all_tasks():
-    tasks = Task.query
-    #does not make much sense in this particular filter-sort. But I programmed it "chained", so we can filter first and then sort filtered data
-    title_query = request.args.get("title")
-    sort_query = request.args.get("sort")
-    if title_query:
-        tasks = tasks.filter_by(title=title_query)
-
-    if sort_query =="sort by id descending":
-        tasks=tasks.order_by(Task.task_id.desc())    
-    elif sort_query=="asc":
-        tasks = tasks.order_by(Task.title.asc()) 
-    elif sort_query=="desc":
-        tasks =tasks.order_by(Task.title.desc())
+    tasks = Task.query.order_by(Task.task_id.asc())
 
     tasks_response = []
     for task in tasks:
         tasks_response.append(task.to_dict()["task"])
     return render_template( 'get_all_tasks.html', tasks=tasks_response, menu=menu)
-
-
-@tasks_bp.route("/get_by_id", methods=["POST", "GET"])
-def read_id():
-    if request.method == "POST":
-        id=request.form['task_id']
-
-        return redirect(url_for(f"tasks_bp/tasks/{id}"))
-
-    return   render_template('id-form.html')
-
-@tasks_bp.route("/<task_id>", methods=["POST", "GET"])
-def read_one_task(task_id):
-    if request.method == "POST":
-        id=request.form['task_id']
-        task = validate_task(id)
-        return render_template('get_one_task.html', task=task,title="One requested by id task", menu=menu)
-
-    return   render_template('id-form.html')
-
-
-@tasks_bp.route("/<task_id>", methods=["PUT"])
-def update_task(task_id):
-    task = validate_task(task_id)
-
-    request_body = request.get_json()
-    
-    task.title = request_body["title"]
-    task.description = request_body["description"]
-
-    db.session.commit()
-    return task.to_dict(), 200
 
 
 @tasks_bp.route("/<task_id>/<mark>", methods=["PATCH"])
@@ -122,11 +75,38 @@ def update_task1(task_id, mark):
 
     return task.to_dict(), 200
 
-@tasks_bp.route("/<task_id>", methods=["DELETE"])
-def delete_task(task_id):
-    task = validate_task(task_id)
-
+@tasks_bp.route("/delete", methods=["POST"])
+def delete_task():
+    id=request.form['task_id']
+    task = validate_task(id)
     db.session.delete(task)
     db.session.commit()
 
-    return {"details": f"Task {task.task_id} \"{task.title}\" successfully deleted"}
+    return render_template('delete_one_task.html', task=task,title="One requested by id task was deleted", menu=menu)
+
+@tasks_bp.route("/task_id", methods=["POST"])
+def read_id():
+    id=request.form['task_id']
+    task = validate_task(id)
+    return render_template('get_one_task.html', task=task,title="One requested by id task", menu=menu)
+
+@tasks_bp.route("/<task_id>", methods=[ "GET"])
+def read_one_task(task_id):
+    return   render_template('id-form.html')
+   
+
+
+@tasks_bp.route("/update", methods=["POST", "GET"])
+def update_task():
+    if request.method == "POST":
+
+        id=request.form['id']
+        task = validate_task(id)
+            
+        task.title =request.form["title"]
+        task.description = request.form["description"]
+
+        db.session.commit()
+        return redirect(url_for('about'))
+   
+    return  render_template('form-update.html', title="Update this task", menu=menu)

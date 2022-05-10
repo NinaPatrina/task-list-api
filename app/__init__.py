@@ -10,12 +10,12 @@ load_dotenv()
 
 menu = [{"name": "List all tasks", "url": "/tasks"},
         {"name": "Create a task","url": "/tasks/post"},
-        {"name": "View one task", "url": f"/tasks/1"},
-        {"name": "Update task", "url": f"/tasks/{id}"},
-        {"name": "Delete task", "url": f"/tasks/{id}"},
+        {"name": "View one task", "url": f"/tasks/task_id"},
+        {"name": "Update task", "url": f"/tasks/update"},
+        {"name": "Delete task", "url": f"/tasks/delete"},
         {"name": "Mark complete","url": f"/tasks/{id}/mark_complete"},
         {"name": "Mark incomplete","url": f"/tasks/{id}/mark_incomplete"},
-        {"name": "List all options","url": "about"}]
+        {"name": "Main page","url": "about"}]
 
 def create_app(test_config=None):
     app = Flask(__name__)
