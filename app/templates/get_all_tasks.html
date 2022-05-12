@@ -6,11 +6,13 @@
         <th>id</th>
         <th>title</th>
         <th>description</th>
+        <th>completed</th>
         {% for t in tasks -%}
         <tr>
             <td>{{t.id}}</td>
-            <td> {{t.title}}</td> 
+            <td>{{t.title}}</td> 
             <td>{{t.description}}</td>
+            <td>{{t.is_complete}}</td>
             </tr>
             {% endfor -%}
             

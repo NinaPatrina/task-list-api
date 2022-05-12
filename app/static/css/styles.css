@@ -43,7 +43,7 @@ ul.mainmenu li a {
   text-decoration: none;
 }
 ul.mainmenu li a:hover {
-  color: #c67c21;
+  color: #7a0fa1;
 }
 
 div.content {
@@ -53,16 +53,42 @@ div.content {
 table.tasks ,th,td{
   text-align:left;
   border:1px solid #580242;
+  margin-left: 200px;
+  margin-block-end: 100px;
+  width: 60%
+  
 }
+tr:nth-child(even) {background-color: #e0f5ef;}
+tr:nth-child(odd) {background-color: rgb(249, 244, 249);}
+
+
+tr:hover {background-color:#cab3c9;}
+
 
 
 .task-post label {
 	display: inline-block; 
 	min-width: 200px;
+  font-size: 23px;
+
 }
-.task-post p {margin: 50px 0 50px 0;}
+.task-post p {
+  /* margin: 50px 0 50px 0; */
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  font-size: 30px;
+  box-sizing: border-box;
+}
 .task-post input[type=submit], textarea {
 	font-size: 20px;
+  background-color: #89aca2;
+  border: none;
+  color: #cef4e9;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 100px 10px;
+  cursor: pointer;
 }
 
 .task-post .invalid {
@@ -71,13 +97,8 @@ table.tasks ,th,td{
 .task-post .invalid-feedback {
 	color: #CC0000;
 }
-
-.flash {padding: 10px;}
-.flash.success {
-	border: 1px solid #21DB56;
-	background: #AEFFC5;
-}
-.flash.error {
+h2 {
+  padding: 10px;
 	border: 1px solid #FF4343;
 	background: #FF9C9C;
 }

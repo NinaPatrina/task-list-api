@@ -8,12 +8,13 @@ db = SQLAlchemy()
 migrate = Migrate()
 load_dotenv()
 
-menu = [{"name": "List all tasks", "url": "/tasks"},
+menu = [{"name": "Main page","url": "/about"},
+        {"name": "List all tasks", "url": "/tasks"},
         {"name": "Create a task","url": "/tasks/post"},
-        {"name": "View one task", "url": f"/tasks/task_id"},
-        {"name": "Update task", "url": f"/tasks/update"},
-        {"name": "Delete task", "url": f"/tasks/delete"},
-        {"name": "Main page","url": "about"}]
+        {"name": "View one task", "url": "/tasks/task_id"},
+        {"name": "Update task", "url": "/tasks/update"},
+        {"name": "Delete task", "url": "/tasks/delete"},
+        {"name": "Mark Complete","url": "/tasks/complete"}]
 
 def create_app(test_config=None):
     app = Flask(__name__)

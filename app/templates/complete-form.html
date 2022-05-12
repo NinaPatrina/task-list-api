@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ super()}}  
+{% for message in get_flashed_messages() %}
+<h2 class="flash">{{ message }}</h2>
+{% endfor %}
+
+<form method ="POST" class="task-post">
+    <div><label>Id: <input type="text" name="t_id"></label></div>
+    <input type="checkbox" id="mark_complete" name="complete" value="mark_complete">
+    <label for ="mark_complete">Task completed</label><br>
+    <input type="checkbox" id="mark_incomplete" name="complete" value="mark_incomplete">
+    <label for ="mark_incomplete">Task not completed</label><br>
+    <input type="submit" value="Submit"><br>
+    {%for n in range(tasks|length)%}
+    {%endfor%}
+
+
+</form>    
+{% endblock %}

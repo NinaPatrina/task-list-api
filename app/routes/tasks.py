@@ -9,17 +9,19 @@ from app import menu
 
 tasks_bp = Blueprint("tasks_bp", __name__,  url_prefix="/tasks")
 path="https://slack.com/api/chat.postMessage"
-SLACK_API_KEY = os.environ.get("SLACK_AUTH_KEY")
+SLACK_API_KEY = 'xoxb-3491140412451-3484617014006-O1unyvDw54ykyZ7SIC4zsLEr'
 
 
 def validate_task(id):
     try:
         id = int(id)
     except:
+        
         abort(make_response({"message":f"task {id} invalid"}, 400))
     task = Task.query.get(id)
 
     if not task:
+
         abort(make_response({"message":f"task {id} not found"}, 404))
     return task
 
@@ -27,13 +29,11 @@ def validate_task(id):
 @tasks_bp.route("/post", methods=["POST", "GET"])
 def create_task():
     if request.method == "POST":
-
         try:
             new_task = Task(title=request.form["title"],
                         description=request.form["description"])
         except KeyError:
             return {"details": "Invalid data"}, 400
-
         db.session.add(new_task)
         db.session.commit()
         return redirect(url_for('about'))
@@ -43,37 +43,37 @@ def create_task():
 @tasks_bp.route("", methods=["GET"])
 def get_all_tasks():
     tasks = Task.query.order_by(Task.task_id.asc())
-
     tasks_response = []
     for task in tasks:
         tasks_response.append(task.to_dict()["task"])
     return render_template( 'get_all_tasks.html', tasks=tasks_response, menu=menu)
 
 
-@tasks_bp.route("/<task_id>/<mark>", methods=["PATCH"])
-def update_task1(task_id, mark):
-    task = validate_task(task_id)
+@tasks_bp.route("/complete/", methods=["POST", "GET"])
+def update_task1():
+    if request.method == "POST":
 
-    if mark =="mark_complete":
-        task.completed_at =datetime.utcnow() 
-        slack_headers =  {"Authorization" : "Bearer "+SLACK_API_KEY}
-        myobj={"channel" :"task-notifications",
-               "text":f"Someone just completed the task {task.title}"}
-        requests.post(path,data = myobj, headers=slack_headers)
-        flash('Hurray!! You completed your task!!')
+        id=request.form['t_id']
+        task = validate_task(id)
+        mark=request.form['complete']
 
-    elif mark =="mark_incomplete": 
-        task.completed_at =None
-        flash('Don\'t be upset, you will complete it later for sure')
+        if mark =="mark_complete":
+            task.completed_at =datetime.utcnow() 
+            slack_headers =  {"Authorization" : "Bearer "+SLACK_API_KEY}
+            myobj={"channel" :"task-notifications",
+                "text":f"Someone just completed the task {task.title}"}
+            requests.post(path,data = myobj, headers=slack_headers)
+            flash('Hurray!! You completed your task!!')
 
-    #! does not work so far:
-    if not mark:
-        flash('<h2>You can mark task using mark_complete or mark_incomplete</h2>')
-        return redirect(url_for('index'))    
+        elif mark =="mark_incomplete": 
+            task.completed_at =None
+            flash('Don\'t be upset, you will complete it later for sure')
 
-    db.session.commit()
+        db.session.commit()
+        # return redirect(url_for('about'))
+   
+    return  render_template('complete-form.html', title="Enter the id of your task and don't forget to check the box below", menu=menu)
 
-    return task.to_dict(), 200
 
 @tasks_bp.route("/delete", methods=["POST"])
 def delete_task():
@@ -94,7 +94,6 @@ def read_id():
 def read_one_task(task_id):
     return   render_template('id-form.html')
    
-
 
 @tasks_bp.route("/update", methods=["POST", "GET"])
 def update_task():
