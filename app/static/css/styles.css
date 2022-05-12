@@ -55,7 +55,8 @@ table.tasks ,th,td{
   border:1px solid #580242;
   margin-left: 200px;
   margin-block-end: 100px;
-  width: 60%
+  width: 60%;
+  table-layout:auto;
   
 }
 tr:nth-child(even) {background-color: #e0f5ef;}

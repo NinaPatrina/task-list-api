@@ -3,13 +3,13 @@
 {% block content %}
 {{ super()}}    
     <table class="tasks">
-        <th>id</th>
+        <th style="width:10%;">id</th>
         <th>title</th>
         <th>description</th>
         <th>completed</th>
         {% for t in tasks -%}
         <tr>
-            <td>{{t.id}}</td>
+            <td style="width:10%;">{{t.id}}</td>
             <td>{{t.title}}</td> 
             <td>{{t.description}}</td>
             <td>{{t.is_complete}}</td>
