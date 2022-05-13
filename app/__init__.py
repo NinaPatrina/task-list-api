@@ -50,7 +50,7 @@ def create_app(test_config=None):
     def pageNotFound(error):
         return render_template('page404.html', title='page not found', menu=menu), 404 
 
-    @app.route("/base")
+    @app.route("/")
     @app.route("/about")
     def about():
         print(url_for('about'))
