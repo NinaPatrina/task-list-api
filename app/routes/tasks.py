@@ -1,3 +1,4 @@
+import errno
 from flask import Blueprint, jsonify, abort, make_response, request, flash, redirect, url_for, render_template
 from app.models.task import Task
 from app import db
@@ -17,14 +18,21 @@ def validate_task(id):
         id = int(id)
     except:
         
-        abort(make_response({"message":f"task {id} invalid"}, 400))
+        abort(400)
     task = Task.query.get(id)
 
     if not task:
 
-        abort(make_response({"message":f"task {id} not found"}, 404))
+        abort( 404)
     return task
 
+@tasks_bp.errorhandler(400)
+def pageNotFound(error):
+    return render_template('page400.html', title="Task id is invalid, please enter the number", menu=menu), 400 
+
+@tasks_bp.errorhandler(404)
+def pageNotFound(error):
+    return render_template('page404.html', title="Task was not found", menu=menu), 404     
 
 @tasks_bp.route("/post", methods=["POST", "GET"])
 def create_task():
