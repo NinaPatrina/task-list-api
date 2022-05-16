@@ -1,23 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{{ super()}}    
-    <table class="tasks">
-        <th style="width:10%;">id</th>
-        <th>title</th>
-        <th>description</th>
-        <th>completed</th>
-        {% for t in tasks -%}
-        <tr>
-            <td style="width:10%;">{{t.id}}</td>
-            <td>{{t.title}}</td> 
-            <td>{{t.description}}</td>
-            <td>{{t.is_complete}}</td>
-            </tr>
-            {% endfor -%}
-            
+{{ super()}}  
+    <body class="tab">
+        <table class="tasks">
+            <th style="width:10%;">id</th>
+            <th>title</th>
+            <th>description</th>
+            <th>completed</th>
+            {% for t in tasks -%}
+            <tr>
+                <td style="width:10%;">{{t.id}}</td>
+                <td>{{t.title}}</td> 
+                <td>{{t.description}}</td>
+                <td>{{t.is_complete}}</td>
+                </tr>
+                {% endfor -%}
+                
         </table>
-        
+    </body>  
 {% endblock %}
 
 

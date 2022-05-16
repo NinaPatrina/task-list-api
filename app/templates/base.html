@@ -9,7 +9,7 @@
 {%- block mainmenu -%}    
     <ul class="mainmenu">
         {% for m in menu -%}
-        <li><a href="{{m.url}}">{{m.name}}</a></li>
+        <li class="flex-item"><a href="{{m.url}}">{{m.name}}</a></li>
         {% endfor -%}
     </ul>
         {% endblock mainmenu -%}
