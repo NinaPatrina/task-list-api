@@ -79,7 +79,7 @@ def update_task1():
 
         db.session.commit()
         # return redirect(url_for('about'))
-   
+
     return  render_template('complete-form.html', title="Enter the id of your task and don't forget to check the box below", menu=menu)
 
 
@@ -101,7 +101,7 @@ def read_id():
 @tasks_bp.route("/<task_id>", methods=[ "GET"])
 def read_one_task(task_id):
     return   render_template('id-form.html')
-   
+
 
 @tasks_bp.route("/update", methods=["POST", "GET"])
 def update_task():
@@ -115,5 +115,5 @@ def update_task():
 
         db.session.commit()
         return redirect(url_for('about'))
-   
+
     return  render_template('form-update.html', title="Update this task", menu=menu)

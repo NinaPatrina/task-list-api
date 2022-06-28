@@ -32,43 +32,18 @@ a:hover {
   clear: both;
 }
 
-/* ul.mainmenu {
-  list-style: none;
-  background: #9e7b9c;
-  height: 200px;
-  margin: 200;
-  color: #171513;
-  font-size: 25px;
-  overflow: auto;
-  border:1px solid #580242;
-}
-ul.mainmenu li {
-  float: left;
-  margin: 18px 40px 0 50px;
-}
-ul.mainmenu li.last {
-  float: right;
-}
-
-ul.mainmenu li a {
-  color: #191209;
-  text-decoration: none;
-}
-ul.mainmenu li a:hover {
-  color: #7a0fa1;
-} */
 
 .mainmenu {
   padding: 0;
   margin: 0;
   list-style: none;
-  
-  display: -webkit-box;
+  /* display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
-  display: -webkit-flex;
+  display: -webkit-flex; */
   display: flex;
-  
+  flex-wrap: wrap;
+
   /* -webkit-flex-flow: row nowrap; */
   justify-content: space-around;
 }
